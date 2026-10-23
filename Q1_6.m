@@ -94,23 +94,15 @@ fprintf('Nearly uniform at %.2f s from the start.\n',t_uniform);
 fprintf('Waiting time after printing: %.2f s.\n',t_uniform-t_print);
 
 %% Plots
-subplot(2,2,1);
-plot(t,printed_length(1:it)); grid on;
-xlabel('Time (s)'); ylabel('Printed length (m)');
 
-subplot(2,2,2);
+subplot(1,2,1);
 img = imagesc(t,s,T_history);
 set(img,'AlphaData',~isnan(T_history));
 set(gca,'YDir','normal','Color',[0.9 0.9 0.9]);
 colorbar; xlabel('Time (s)'); ylabel('Arc length (m)');
 title('Temperature (deg C)');
 
-subplot(2,2,3);
-plot(t,T_max,t,T_min); grid on;
-xlabel('Time (s)'); ylabel('Temperature (deg C)');
-legend('Maximum','Minimum');
-
-subplot(2,2,4);
+subplot(1,2,2);
 plot(t,T_max-T_min); grid on;
 yline(tol,'--');
 xlabel('Time (s)'); ylabel('Temperature difference (K)');

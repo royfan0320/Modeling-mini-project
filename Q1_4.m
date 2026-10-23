@@ -29,7 +29,6 @@ A = [0 0 1 0 0 0;
 B = [0 0; 0 0; 0 0; 0 0; 1/L_m 0; 0 1/L_m];
 
 %% Draw two shapes
-max_error = zeros(1,2);
 for shape = 1:2
     if shape == 1
         shape_name = 'ellipse';
@@ -92,32 +91,18 @@ for shape = 1:2
         B*interp1(t,u_motor,time,'linear','extrap')',t,X0,options);
     x_sim = r_m/2*(X(:,1)+X(:,2));
     y_sim = r_m/2*(X(:,1)-X(:,2));
-    error_x = x_sim-x_ref;
-    error_y = y_sim-y_ref;
-    max_error(shape) = max(sqrt(error_x.^2+error_y.^2));
-    fprintf('%s: maximum tracking error = %.3e m\n',shape_name,max_error(shape));
 
     %% plots
     figure;
-    if isprop(gcf,'Theme'), set(gcf,'Theme','light'); end
-    subplot(2,2,1);
+    subplot(1,2,1);
     plot(x_ref,y_ref,'r--',x_sim,y_sim,'b-');
     axis equal; grid on;
     xlabel('x (m)'); ylabel('y (m)'); title(shape_name);
     legend('Reference','Simulation','Location','best');
 
-    subplot(2,2,2);
+    subplot(1,2,2);
     plot(t,u_m_l,t,u_m_r); grid on;
     xlabel('Time (s)'); ylabel('Voltage (V)');
     legend('u_{m,l}','u_{m,r}','Location','best');
 
-    subplot(2,2,3);
-    plot(t,x_sim,t,y_sim); grid on;
-    xlabel('Time (s)'); ylabel('Position (m)');
-    legend('x','y','Location','best');
-
-    subplot(2,2,4);
-    plot(t,1e6*error_x,t,1e6*error_y); grid on;
-    xlabel('Time (s)'); ylabel('Error (micrometres)');
-    legend('e_x','e_y','Location','best');
 end
